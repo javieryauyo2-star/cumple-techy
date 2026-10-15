@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¡Feliz cumple! 🎉</title>
+<style>
+:root{--pink:#ff4fa3;--purple:#7b2ff7;--deep:#2a0a4d;--soft:#ffe3f1;--text:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
+font-family:'Trebuchet MS',system-ui,sans-serif;color:var(--text);
+background:linear-gradient(160deg,var(--pink),var(--purple) 60%,var(--deep));overflow-x:hidden}
+.card{position:relative;z-index:2;padding:28px 22px;max-width:420px}
+.num{font-size:110px;font-weight:900;line-height:1;margin:0;text-shadow:0 6px 24px rgba(0,0,0,.3);animation:pulse 2s infinite}
+h1{margin:8px 0 4px;font-size:30px}
+p{font-size:18px;line-height:1.5;margin:10px 0}
+button{margin-top:16px;border:0;border-radius:999px;padding:14px 28px;font-size:18px;font-weight:700;
+color:var(--deep);background:var(--soft);box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer}
+button:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+#msg{display:none;background:rgba(255,255,255,.15);border-radius:18px;padding:16px;margin-top:18px}
+.f{position:fixed;bottom:-60px;font-size:28px;animation:up linear infinite;z-index:1}
+@keyframes up{to{transform:translateY(-120vh) rotate(40deg)}}
+@keyframes pulse{50%{transform:scale(1.07)}}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:3}
+</style>
+</head>
+<body>
+<div class="card">
+  <p>🎂 Hoy es un día especial 🎂</p>
+  <div class="num">13</div>
+  <h1>¡Feliz cumpleaños, Steyci!</h1>
+  <p>Steyci, tengo un regalito para ti 💜</p>
+  <button id="b">Ábrelo 🎁</button>
+  <div id="msg">
+    <p>Que este nuevo año te traiga alegría, sueños cumplidos y muchas cosas bonitas. Eres muy especial y te queremos mucho. 🩷</p>
+    <p><b>Con cariño, tu tío Joseph</b></p>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<script>
+const em=['🎈','💖','💜','✨','🎀','🦋'];
+for(let i=0;i<14;i++){const s=document.createElement('span');s.className='f';s.textContent=em[i%em.length];
+s.style.left=Math.random()*95+'vw';s.style.animationDuration=(6+Math.random()*8)+'s';s.style.animationDelay=(-Math.random()*10)+'s';document.body.appendChild(s)}
+const cv=document.getElementById('c'),x=cv.getContext('2d');let P=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener('resize',size);
+const cols=['#ff4fa3','#ffe3f1','#b57bff','#fff','#ff9ed2'];
+function boom(){for(let i=0;i<140;i++)P.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*14,vy:Math.random()*-14-2,r:Math.random()*6+3,c:cols[i%5]})}
+function loop(){x.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.3;x.fillStyle=p.c;x.fillRect(p.x,p.y,p.r,p.r)});P=P.filter(p=>p.y<innerHeight+20);requestAnimationFrame(loop)}loop();
+document.getElementById('b').onclick=()=>{document.getElementById('msg').style.display='block';boom();setTimeout(boom,400)};
+</script>
+</body>
+</html>
